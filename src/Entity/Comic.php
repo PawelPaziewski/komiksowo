@@ -2,15 +2,15 @@
 
 namespace App\Entity;
 
-use App\Repository\ComicsRepository;
+use App\Repository\ComicRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=ComicsRepository::class)
+ * @ORM\Entity(repositoryClass=ComicRepository::class)
  */
-class Comics
+class Comic
 {
     /**
      * @ORM\Id()
@@ -87,14 +87,14 @@ class Comics
     }
 
     /**
-     * @return Collection|Likes[]
+     * @return Collection|Like[]
      */
     public function getLikes(): Collection
     {
         return $this->likes;
     }
 
-    public function addLike(Likes $like): self
+    public function addLike(Like $like): self
     {
         if (!$this->likes->contains($like)) {
             $this->likes[] = $like;
@@ -104,7 +104,7 @@ class Comics
         return $this;
     }
 
-    public function removeLike(Likes $like): self
+    public function removeLike(Like $like): self
     {
         if ($this->likes->contains($like)) {
             $this->likes->removeElement($like);

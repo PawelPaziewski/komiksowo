@@ -2,13 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\LikesRepository;
+use App\Repository\LikeRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=LikesRepository::class)
+ * @ORM\Entity(repositoryClass=LikeRepository::class)
  */
-class Likes
+class Like
 {
     /**
      * @ORM\Id()
@@ -46,12 +46,12 @@ class Likes
         return $this;
     }
 
-    public function getComic(): ?Comics
+    public function getComic(): ?Comic
     {
         return $this->comic;
     }
 
-    public function setComic(?Comics $comic): self
+    public function setComic(?Comic $comic): self
     {
         $this->comic = $comic;
 

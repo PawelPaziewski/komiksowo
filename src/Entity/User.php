@@ -143,14 +143,14 @@ class User implements UserInterface
     }
 
     /**
-     * @return Collection|Comics[]
+     * @return Collection|Comic[]
      */
     public function getComics(): Collection
     {
         return $this->comics;
     }
 
-    public function addComic(Comics $comic): self
+    public function addComic(Comic $comic): self
     {
         if (!$this->comics->contains($comic)) {
             $this->comics[] = $comic;
@@ -160,7 +160,7 @@ class User implements UserInterface
         return $this;
     }
 
-    public function removeComic(Comics $comic): self
+    public function removeComic(Comic $comic): self
     {
         if ($this->comics->contains($comic)) {
             $this->comics->removeElement($comic);
@@ -174,14 +174,14 @@ class User implements UserInterface
     }
 
     /**
-     * @return Collection|Likes[]
+     * @return Collection|Like[]
      */
     public function getLikes(): Collection
     {
         return $this->likes;
     }
 
-    public function addLike(Likes $like): self
+    public function addLike(Like $like): self
     {
         if (!$this->likes->contains($like)) {
             $this->likes[] = $like;
@@ -191,7 +191,7 @@ class User implements UserInterface
         return $this;
     }
 
-    public function removeLike(Likes $like): self
+    public function removeLike(Like $like): self
     {
         if ($this->likes->contains($like)) {
             $this->likes->removeElement($like);
