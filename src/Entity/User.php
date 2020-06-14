@@ -42,12 +42,12 @@ class User implements UserInterface
     private $email;
 
     /**
-     * @ORM\OneToMany(targetEntity=Comics::class, mappedBy="user")
+     * @ORM\OneToMany(targetEntity=Comic::class, mappedBy="user")
      */
     private $comics;
 
     /**
-     * @ORM\OneToMany(targetEntity=Likes::class, mappedBy="user")
+     * @ORM\OneToMany(targetEntity=Like::class, mappedBy="user")
      */
     private $likes;
 

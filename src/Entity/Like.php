@@ -24,7 +24,7 @@ class Like
     private $user;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Comics::class, inversedBy="likes")
+     * @ORM\ManyToOne(targetEntity=Comic::class, inversedBy="likes")
      * @ORM\JoinColumn(nullable=false)
      */
     private $comic;

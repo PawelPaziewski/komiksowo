@@ -36,7 +36,7 @@ class Comic
     private $user;
 
     /**
-     * @ORM\OneToMany(targetEntity=Likes::class, mappedBy="comic")
+     * @ORM\OneToMany(targetEntity=Like::class, mappedBy="comic")
      */
     private $likes;
 
