@@ -46,9 +46,15 @@ class User implements UserInterface
      */
     private $comics;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Likes::class, mappedBy="user")
+     */
+    private $likes;
+
     public function __construct()
     {
         $this->comics = new ArrayCollection();
+        $this->likes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -161,6 +167,37 @@ class User implements UserInterface
             // set the owning side to null (unless already changed)
             if ($comic->getUser() === $this) {
                 $comic->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Likes[]
+     */
+    public function getLikes(): Collection
+    {
+        return $this->likes;
+    }
+
+    public function addLike(Likes $like): self
+    {
+        if (!$this->likes->contains($like)) {
+            $this->likes[] = $like;
+            $like->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLike(Likes $like): self
+    {
+        if ($this->likes->contains($like)) {
+            $this->likes->removeElement($like);
+            // set the owning side to null (unless already changed)
+            if ($like->getUser() === $this) {
+                $like->setUser(null);
             }
         }
 
