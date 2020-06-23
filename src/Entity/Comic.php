@@ -25,7 +25,7 @@ class Comic
     private $title;
 
     /**
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="datetime")
      */
     private $uploadedDate;
 
