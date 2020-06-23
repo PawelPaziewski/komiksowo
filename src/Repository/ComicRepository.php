@@ -43,12 +43,4 @@ class ComicRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function findOneRandom()
-    {
-        return $this->createQueryBuilder('comic')
-            ->orderBy(RAND())
-            ->setMaxResults(1)
-            ->getQuery()
-            ->getResult();
-    }
 }

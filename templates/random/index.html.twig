@@ -3,5 +3,7 @@
 {% block title %}Hello RandomController!{% endblock %}
 
 {% block body %}
-    <img src="/../comics/{{ randcomic.filename }}" alt="{{ randcomic.filename }}">
+    {% for c in randcomics %}
+        <img src="/../comics/{{ c.filename }}" alt="{{ c.filename }}">
+    {% endfor %}
 {% endblock %}
