@@ -2,18 +2,18 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Entity\Comic;
 use Symfony\Component\Routing\Annotation\Route;
 
-class TopController extends AbstractController
+class TopController extends PhotoController
 {
     /**
      * @Route("/top", name="top")
      */
     public function index()
     {
-        return $this->render('top/index.html.twig', [
-            'controller_name' => 'TopController',
-        ]);
+        $manager = $this->getDoctrine()->getManager();
+        $top = $manager->getRepository(Comic::class)->findAllSortedByLikes();
+        return $this->render('top/index.html.twig', ['comics' => $top]);
     }
 }
