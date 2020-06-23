@@ -46,9 +46,15 @@ class Comic
      */
     private $numOfLikes;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=User::class, inversedBy="likes")
+     */
+    private $likesBy;
+
     public function __construct()
     {
         $this->likes = new ArrayCollection();
+        $this->likesBy = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -113,6 +119,32 @@ class Comic
     public function setNumOfLikes(int $numOfLikes): self
     {
         $this->numOfLikes = $numOfLikes;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getLikesBy(): Collection
+    {
+        return $this->likesBy;
+    }
+
+    public function addLikesBy(User $likesBy): self
+    {
+        if (!$this->likesBy->contains($likesBy)) {
+            $this->likesBy[] = $likesBy;
+        }
+
+        return $this;
+    }
+
+    public function removeLikesBy(User $likesBy): self
+    {
+        if ($this->likesBy->contains($likesBy)) {
+            $this->likesBy->removeElement($likesBy);
+        }
 
         return $this;
     }

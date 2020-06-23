@@ -43,6 +43,11 @@ class User implements UserInterface
      */
     private $comics;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Comic::class, mappedBy="likesBy")
+     */
+    private $likes;
+
     public function __construct()
     {
         $this->comics = new ArrayCollection();
@@ -155,6 +160,34 @@ class User implements UserInterface
                 $comic->setUser(null);
             }
         }
+        return $this;
+    }
+
+    /**
+     * @return Collection|Comic[]
+     */
+    public function getLikes(): Collection
+    {
+        return $this->likes;
+    }
+
+    public function addLike(Comic $like): self
+    {
+        if (!$this->likes->contains($like)) {
+            $this->likes[] = $like;
+            $like->addLikesBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLike(Comic $like): self
+    {
+        if ($this->likes->contains($like)) {
+            $this->likes->removeElement($like);
+            $like->removeLikesBy($this);
+        }
+
         return $this;
     }
 }
