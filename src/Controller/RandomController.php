@@ -16,6 +16,7 @@ class RandomController extends AbstractController
         $manager = $this->getDoctrine()->getManager();
         $myComics = $manager->getRepository(Comic::class)->findAll();
         shuffle($myComics);
-        return $this->render('random/index.html.twig', ['randcomics' => $myComics]);
+        $randomComic = array_pop($myComics);
+        return $this->render('random/index.html.twig', ['randcomics' => $randomComic]);
     }
 }
