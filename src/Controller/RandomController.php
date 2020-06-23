@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Comic;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -12,8 +13,8 @@ class RandomController extends AbstractController
      */
     public function index()
     {
-        return $this->render('random/index.html.twig', [
-            'controller_name' => 'RandomController',
-        ]);
+        $manager = $this->getDoctrine()->getManager();
+        $myComics = $manager->getRepository(Comic::class)->findOneRandom();
+        return $this->render('random/index.html.twig', ['randcomic' => $myComics]);
     }
 }
