@@ -15,6 +15,6 @@ class MyComicsController extends AbstractController
     {
         $manager = $this->getDoctrine()->getManager();
         $myComics = $manager->getRepository(Comic::class)->findBy(['user'=>$this->getUser()]);
-        return $this->render('my_comics/index.html.twig', ['mycomics' => $myComics]);
+        return $this->render('my_comics/index.html.twig', ['comics' => $myComics]);
     }
 }

@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }}{% endblock %}
+
+{% block body %}
+    {% for comic in comics %}
+        <img src="/../comics/{{ comic.filename }}" alt="">
+        {% if app.user %}
+            {% for like in likes %}
+            {% if like.user.contains(app.user) %}
+                <p>Lubi</p>
+            {% else %}
+                <p> Nie lubi</p>
+            {% endif %}
+            {% endfor %}
+            <a href="#">
+                <img src="/../lajkbang.png" height="50">
+            </a>
+        {% endif %}
+        <p>Likes: {{ comic.getNumOfLikes }}</p>
+
+    {% endfor %}
+{% endblock %}

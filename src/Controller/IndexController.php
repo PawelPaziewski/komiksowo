@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Comic;
+use App\Entity\Like;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -16,6 +17,8 @@ class IndexController extends AbstractController
     {
         $manager=$this->getDoctrine()->getManager();
         $latest = $manager ->getRepository(Comic::class)->findAllSortedByUploadedDate();
-        return $this->render('index/index.html.twig', ['comics' => $latest]);
+        $likes = $this->getDoctrine()->getManager()->getRepository(Like::class)->findAll();
+        return $this->render('index/index.html.twig', ['comics' => $latest, 'likes'=>$likes]);
     }
+
 }
