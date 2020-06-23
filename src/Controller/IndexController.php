@@ -15,8 +15,7 @@ class IndexController extends AbstractController
     public function index()
     {
         $manager=$this->getDoctrine()->getManager();
-        $latest = $manager ->getRepository(Comic::class)->findAll();
-        //TODO sort by uploaded date
+        $latest = $manager ->getRepository(Comic::class)->findAllSortedByUploadedDate();
         return $this->render('index/index.html.twig', ['comics' => $latest]);
     }
 }
