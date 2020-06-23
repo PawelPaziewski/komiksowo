@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }}Hello MyComicsController!{% endblock %}
+
+{% block body %}
+    {% for mycomic in mycomics %}
+        <img src="/../comics/{{ mycomic.filename }}" alt="{{ mycomic.filename }}">
+    {% endfor %}
+{% endblock %}
