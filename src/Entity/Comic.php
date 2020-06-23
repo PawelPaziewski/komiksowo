@@ -45,6 +45,11 @@ class Comic
      */
     private $filename;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $numOfLikes;
+
     public function __construct()
     {
         $this->likes = new ArrayCollection();
@@ -104,6 +109,7 @@ class Comic
         if (!$this->likes->contains($like)) {
             $this->likes[] = $like;
             $like->setComic($this);
+            $this->numOfLikes++;
         }
 
         return $this;
@@ -113,6 +119,7 @@ class Comic
     {
         if ($this->likes->contains($like)) {
             $this->likes->removeElement($like);
+            $this->numOfLikes--;
             // set the owning side to null (unless already changed)
             if ($like->getComic() === $this) {
                 $like->setComic(null);
@@ -130,6 +137,18 @@ class Comic
     public function setFilename(string $filename): self
     {
         $this->filename = $filename;
+
+        return $this;
+    }
+
+    public function getNumOfLikes(): ?int
+    {
+        return $this->numOfLikes;
+    }
+
+    public function setNumOfLikes(int $numOfLikes): self
+    {
+        $this->numOfLikes = $numOfLikes;
 
         return $this;
     }

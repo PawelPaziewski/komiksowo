@@ -5,5 +5,6 @@
 {% block body %}
     {% for comic in comics %}
         <img src="comics/{{ comic.filename }}" alt="">
+        <p>Likes: {{ comic.getNumOfLikes }}</p>
     {% endfor %}
 {% endblock %}
