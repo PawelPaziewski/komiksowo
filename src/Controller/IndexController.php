@@ -7,7 +7,7 @@ use App\Entity\Like;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
-class IndexController extends AbstractController
+class IndexController extends PhotoController
 {
     /**
      * @Route("/index", name="index")

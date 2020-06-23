@@ -6,7 +6,7 @@ use App\Entity\Comic;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
-class MyComicsController extends AbstractController
+class MyComicsController extends PhotoController
 {
     /**
      * @Route("/my/comics", name="my_comics")

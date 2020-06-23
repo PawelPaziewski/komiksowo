@@ -6,7 +6,7 @@ use App\Entity\Comic;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
-class RandomController extends AbstractController
+class RandomController extends PhotoController
 {
     /**
      * @Route("/random", name="random")
