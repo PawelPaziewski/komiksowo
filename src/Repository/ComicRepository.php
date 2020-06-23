@@ -35,15 +35,20 @@ class ComicRepository extends ServiceEntityRepository
         ;
     }
     */
-
-
     public function findAllSortedByUploadedDate()
     {
         return $this->createQueryBuilder('comic')
             ->orderBy('comic.uploadedDate', 'DESC')
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
 
+    public function findOneRandom()
+    {
+        return $this->createQueryBuilder('comic')
+            ->orderBy(RAND())
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getResult();
+    }
 }
