@@ -18,7 +18,9 @@
                     <img src="/../lajkpng.png" height="50">
                 </a>
             {% endif %}
-
+            <a href="{{ path('delete', {'id': comic.id}) }}">
+                <img src="/../delete.png" alt="delete.png" height="50">
+            </a>
         {% endif %}
         <p>Likes: {{ comic.getNumOfLikes }}</p>
 

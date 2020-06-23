@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Comic;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Routing\Annotation\Route;
 
 abstract class  PhotoController extends AbstractController
