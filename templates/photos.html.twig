@@ -18,6 +18,8 @@
                     <img src="/../lajkpng.png" height="50">
                 </a>
             {% endif %}
+        {% endif %}
+        {% if app.user==comic.user %}
             <a href="{{ path('delete', {'id': comic.id}) }}">
                 <img src="/../delete.png" alt="delete.png" height="50">
             </a>
