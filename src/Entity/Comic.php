@@ -135,6 +135,7 @@ class Comic
     {
         if (!$this->likesBy->contains($likesBy)) {
             $this->likesBy[] = $likesBy;
+            $this->numOfLikes++;
         }
 
         return $this;
@@ -144,6 +145,7 @@ class Comic
     {
         if ($this->likesBy->contains($likesBy)) {
             $this->likesBy->removeElement($likesBy);
+            $this->numOfLikes--;
         }
 
         return $this;

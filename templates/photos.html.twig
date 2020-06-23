@@ -6,9 +6,19 @@
     {% for comic in comics %}
         <img src="/../comics/{{ comic.filename }}" alt="">
         {% if app.user %}
-            <a href="#">
+            {% if comic.likesBy.contains(app.user) %}
+                {#                Lubi#}
+                <a href="{{  path('unlike', {'id': comic.id}) }}">
                 <img src="/../lajkbang.png" height="50">
             </a>
+
+            {% else %}
+                {#                Nie lubi#}
+                <a href="{{  path('like', {'id': comic.id}) }}">
+                    <img src="/../lajkpng.png" height="50">
+                </a>
+            {% endif %}
+
         {% endif %}
         <p>Likes: {{ comic.getNumOfLikes }}</p>
 
