@@ -43,12 +43,5 @@ class ComicRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-//    public function likedBy($userL)
-//    {
-//        return $this->createQueryBuilder(comic)
-//            ->andWhere('comic.likes.user = :val')
-//            ->setParameter('val', $userL)
-//            ->getQuery()
-//            ->getResult();
-//    }
+
 }

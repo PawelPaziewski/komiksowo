@@ -35,10 +35,6 @@ class Comic
      */
     private $user;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Like::class, mappedBy="comic")
-     */
-    private $likes;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -96,38 +92,6 @@ class Comic
         return $this;
     }
 
-    /**
-     * @return Collection|Like[]
-     */
-    public function getLikes(): Collection
-    {
-        return $this->likes;
-    }
-
-    public function addLike(Like $like): self
-    {
-        if (!$this->likes->contains($like)) {
-            $this->likes[] = $like;
-            $like->setComic($this);
-            $this->numOfLikes++;
-        }
-
-        return $this;
-    }
-
-    public function removeLike(Like $like): self
-    {
-        if ($this->likes->contains($like)) {
-            $this->likes->removeElement($like);
-            $this->numOfLikes--;
-            // set the owning side to null (unless already changed)
-            if ($like->getComic() === $this) {
-                $like->setComic(null);
-            }
-        }
-
-        return $this;
-    }
 
     public function getFilename(): ?string
     {
@@ -152,6 +116,4 @@ class Comic
 
         return $this;
     }
-
-
 }

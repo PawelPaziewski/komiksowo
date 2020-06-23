@@ -17,8 +17,7 @@ class IndexController extends AbstractController
     {
         $manager=$this->getDoctrine()->getManager();
         $latest = $manager ->getRepository(Comic::class)->findAllSortedByUploadedDate();
-        $likes = $this->getDoctrine()->getManager()->getRepository(Like::class)->findAll();
-        return $this->render('index/index.html.twig', ['comics' => $latest, 'likes'=>$likes]);
+        return $this->render('index/index.html.twig', ['comics' => $latest]);
     }
 
 }
