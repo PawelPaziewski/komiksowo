@@ -17,6 +17,6 @@ class RandomController extends PhotoController
         $myComics = $manager->getRepository(Comic::class)->findAll();
         shuffle($myComics);
         $randomComic = array_pop($myComics);
-        return $this->render('random/index.html.twig', ['randcomics' => $randomComic]);
+        return $this->render('random/index.html.twig', ['comic' => $randomComic]);
     }
 }

@@ -3,8 +3,7 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Routing\Annotation\Route;
 
-class PhotoController extends AbstractController
+abstract class  PhotoController extends AbstractController
 {
 }
