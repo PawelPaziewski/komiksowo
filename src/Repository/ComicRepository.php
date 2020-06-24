@@ -42,6 +42,7 @@ class ComicRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
     public function findAllSortedByLikes()
     {
         return $this->createQueryBuilder('comic')
@@ -49,5 +50,4 @@ class ComicRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
-
 }
