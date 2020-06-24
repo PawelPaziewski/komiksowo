@@ -1,16 +1,16 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello AddController!{% endblock %}
+{% block title %}{{ parent() }} Dodaj{% endblock %}
 
 {% block body %}
     <div class="container">
-        <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+        <h1 class="h3 mb-3 font-weight-normal">Dodaj komiks</h1>
         {% form_theme addComic 'form/bootstrap_4_layout.html.twig' %}
         {{ form_start(addComic) }}
         {{ form_row(addComic.title) }}
         {{ form_row(addComic.filename) }}
         <button class="btn btn-lg btn-primary" type="submit">
-            Sign in
+            Wyślij
         </button>
         {{ form_end(addComic) }}
         {% for message in app.flashes('success') %}
