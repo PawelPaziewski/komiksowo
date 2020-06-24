@@ -22,7 +22,6 @@ class RegistrationController extends AbstractController
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             // encode the plain password
             $user->setPassword(
@@ -31,14 +30,10 @@ class RegistrationController extends AbstractController
                     $form->get('plainPassword')->getData()
                 )
             );
-//            $user->setRoles(['ROLE_USER',]);
             $user->setEmail($form->get('email')->getData());
-//            $user->setUsername($form->get('username')->getData());
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();
-            // do anything else you need here, like send an email
-
             return $guardHandler->authenticateUserAndHandleSuccess(
                 $user,
                 $request,
@@ -46,7 +41,6 @@ class RegistrationController extends AbstractController
                 'main' // firewall name in security.yaml
             );
         }
-
         return $this->render('registration/register.html.twig', [
             'registrationForm' => $form->createView(),
         ]);
