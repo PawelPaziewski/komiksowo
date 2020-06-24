@@ -3,20 +3,26 @@
 {% block title %}Hello AddController!{% endblock %}
 
 {% block body %}
-{#{% form_theme form 'bootstrap_4_layout.html.twig' %}#}
-    {{ form_start(addComic) }}
+    <div class="container">
+        <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+        {% form_theme addComic 'form/bootstrap_4_layout.html.twig' %}
+        {{ form_start(addComic) }}
         {{ form_row(addComic.title) }}
         {{ form_row(addComic.filename) }}
-        <input type="submit" value="Wyślij" class="form-control btn btn-success w-50 align-self-center" />
-    {{ form_end(addComic) }}
-    {% for message in app.flashes('success') %}
-        <div class="alert alert-success">
-            {{ message }}
-        </div>
-    {% endfor %}
-    {% for message in app.flashes('error') %}
-        <div class="alert alert-danger">
-            {{ message }}
-        </div>
-    {% endfor %}
+        <button class="btn btn-lg btn-primary" type="submit">
+            Sign in
+        </button>
+        {{ form_end(addComic) }}
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+        {% endfor %}
+        {% for message in app.flashes('error') %}
+            <div class="alert alert-danger">
+                {{ message }}
+            </div>
+        {% endfor %}
+
+    </div>
 {% endblock %}

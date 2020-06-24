@@ -16,7 +16,7 @@ class AddComicType extends AbstractType
         $builder
             ->add('title')
             ->add('filename', FileType::class, [
-                'label' => ' ',
+                'label' => 'Dodaj plik',
                 'constraints' => [
                     new File([
                         'maxSize' => '2M',
