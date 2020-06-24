@@ -3,71 +3,74 @@
 namespace App\Controller;
 
 use App\Entity\Comic;
+use App\Service\RedirectToPrevious;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
 abstract class  PhotoController extends AbstractController
 {
-    private $session;
+    private $redirectService;
 
     /**
      * PhotoController constructor.
-     * @param $session
+     * @param $redirectService
      */
-    public function __construct(SessionInterface $session)
+    public function __construct(RedirectToPrevious $redirectService)
     {
-        $this->session = $session;
+        $this->redirectService = $redirectService;
     }
 
     /**
      * @Route("/like/{id}", name="like")
+     * @param int $id
+     * @return RedirectResponse
      */
     public function like(int $id)
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
         $manager = $this->getDoctrine()->getManager();
         $comic = $manager->getRepository(Comic::class)->find($id);
         $comic->addLikesBy($this->getUser());
         $manager->persist($comic);
         $manager->flush();
-        return $this->redirectToPrevious();
-    }
-
-    public function redirectToPrevious()
-    {
-        $route = $this->session->get('route', []);
-        if(!$route)
-            $route='index';
-        return $this->redirectToRoute($route);
+        return $this->redirectService->redirectToPrevious();
     }
 
     /**
      * @Route("/unlike/{id}", name="unlike")
+     * @param int $id
+     * @return RedirectResponse
      */
     public function unlike(int $id)
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
         $manager = $this->getDoctrine()->getManager();
         $comic = $manager->getRepository(Comic::class)->find($id);
         $comic->removeLikesBy($this->getUser());
         $manager->persist($comic);
         $manager->flush();
         $manager->flush();
-        return $this->redirectToPrevious();
+        return $this->redirectService->redirectToPrevious();
     }
 
     /**
      * @Route("/delete/{id}", name="delete")
+     * @param int $id
+     * @return RedirectResponse
      */
     public function delete(int $id)
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
         $manager = $this->getDoctrine()->getManager();
         $comic = $manager->getRepository(Comic::class)->find($id);
-        $file = new Filesystem();
-        $file->remove('comics/' . $comic->getFilename());
-        $manager->remove($comic);
-        $manager->flush();
-        $manager->flush();
-        return $this->redirectToPrevious();
+        if ($comic->getUser() == $this->getUser()) {
+            $file = new Filesystem();
+            $file->remove('comics/' . $comic->getFilename());
+            $manager->remove($comic);
+            $manager->flush();
+        }
+        return $this->redirectService->redirectToPrevious();
     }
 }

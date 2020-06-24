@@ -18,34 +18,27 @@ class Comic
      * @ORM\Column(type="integer")
      */
     private $id;
-
     /**
      * @ORM\Column(type="string", length=255)
      */
     private $title;
-
     /**
      * @ORM\Column(type="datetime")
      */
     private $uploadedDate;
-
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="comics")
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
-
-
     /**
      * @ORM\Column(type="string", length=255)
      */
     private $filename;
-
     /**
      * @ORM\Column(type="integer")
      */
     private $numOfLikes;
-
     /**
      * @ORM\ManyToMany(targetEntity=User::class, inversedBy="likes")
      */
@@ -70,7 +63,6 @@ class Comic
     public function setTitle(string $title): self
     {
         $this->title = $title;
-
         return $this;
     }
 
@@ -82,7 +74,6 @@ class Comic
     public function setUploadedDate(\DateTimeInterface $uploadedDate): self
     {
         $this->uploadedDate = $uploadedDate;
-
         return $this;
     }
 
@@ -94,10 +85,8 @@ class Comic
     public function setUser(?User $user): self
     {
         $this->user = $user;
-
         return $this;
     }
-
 
     public function getFilename(): ?string
     {
@@ -107,7 +96,6 @@ class Comic
     public function setFilename(string $filename): self
     {
         $this->filename = $filename;
-
         return $this;
     }
 
@@ -119,7 +107,6 @@ class Comic
     public function setNumOfLikes(int $numOfLikes): self
     {
         $this->numOfLikes = $numOfLikes;
-
         return $this;
     }
 
@@ -137,7 +124,6 @@ class Comic
             $this->likesBy[] = $likesBy;
             $this->numOfLikes++;
         }
-
         return $this;
     }
 
@@ -147,7 +133,6 @@ class Comic
             $this->likesBy->removeElement($likesBy);
             $this->numOfLikes--;
         }
-
         return $this;
     }
 }

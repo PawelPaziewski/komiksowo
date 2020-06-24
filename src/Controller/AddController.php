@@ -18,6 +18,7 @@ class AddController extends AbstractController
      */
     public function index(Request $request)
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
         $form = $this->createForm(AddComicType::class);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
