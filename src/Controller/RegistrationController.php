@@ -5,34 +5,39 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\RegistrationFormType;
 use App\Security\LoginAuthenticator;
+use App\Service\RedirectToPrevious;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 
 class RegistrationController extends AbstractController
 {
-    private $session;
+    private $redirectService;
 
     /**
-     * RegistrationController constructor.
-     * @param $session
+     * PhotoController constructor.
+     * @param $redirectService
      */
-    public function __construct(SessionInterface $session)
+    public function __construct(RedirectToPrevious $redirectService)
     {
-        $this->session = $session;
+        $this->redirectService = $redirectService;
     }
 
     /**
      * @Route("/register", name="app_register")
+     * @param Request $request
+     * @param UserPasswordEncoderInterface $passwordEncoder
+     * @param GuardAuthenticatorHandler $guardHandler
+     * @param LoginAuthenticator $authenticator
+     * @return Response
      */
     public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, GuardAuthenticatorHandler $guardHandler, LoginAuthenticator $authenticator): Response
     {
         if ($this->getUser())
-            return $this->redirectToPrevious();
+            return $this->redirectService->redirectToPrevious();
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
@@ -58,13 +63,5 @@ class RegistrationController extends AbstractController
         return $this->render('registration/register.html.twig', [
             'registrationForm' => $form->createView(),
         ]);
-    }
-
-    public function redirectToPrevious()
-    {
-        $route = $this->session->get('route', []);
-        if (!$route)
-            $route = 'index';
-        return $this->redirectToRoute($route);
     }
 }

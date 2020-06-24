@@ -14,6 +14,7 @@ class TopController extends PhotoController
     {
         $manager = $this->getDoctrine()->getManager();
         $top = $manager->getRepository(Comic::class)->findAllSortedByLikes();
+
         return $this->render('top/index.html.twig', ['comics' => $top]);
     }
 }

@@ -3,11 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Comic;
+use App\Service\RedirectToPrevious;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Service\RedirectToPrevious;
 
 abstract class  PhotoController extends AbstractController
 {
@@ -24,9 +24,12 @@ abstract class  PhotoController extends AbstractController
 
     /**
      * @Route("/like/{id}", name="like")
+     * @param int $id
+     * @return RedirectResponse
      */
     public function like(int $id)
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
         $manager = $this->getDoctrine()->getManager();
         $comic = $manager->getRepository(Comic::class)->find($id);
         $comic->addLikesBy($this->getUser());
@@ -35,19 +38,14 @@ abstract class  PhotoController extends AbstractController
         return $this->redirectService->redirectToPrevious();
     }
 
-//    public function redirectToPrevious()
-//    {
-//        $route = $this->session->get('route', []);
-//        if(!$route)
-//            $route='index';
-//        return $this->redirectToRoute($route);
-//    }
-
     /**
      * @Route("/unlike/{id}", name="unlike")
+     * @param int $id
+     * @return RedirectResponse
      */
     public function unlike(int $id)
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
         $manager = $this->getDoctrine()->getManager();
         $comic = $manager->getRepository(Comic::class)->find($id);
         $comic->removeLikesBy($this->getUser());
@@ -59,16 +57,20 @@ abstract class  PhotoController extends AbstractController
 
     /**
      * @Route("/delete/{id}", name="delete")
+     * @param int $id
+     * @return RedirectResponse
      */
     public function delete(int $id)
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
         $manager = $this->getDoctrine()->getManager();
         $comic = $manager->getRepository(Comic::class)->find($id);
-        $file = new Filesystem();
-        $file->remove('comics/' . $comic->getFilename());
-        $manager->remove($comic);
-        $manager->flush();
-        $manager->flush();
+        if ($comic->getUser() == $this->getUser()) {
+            $file = new Filesystem();
+            $file->remove('comics/' . $comic->getFilename());
+            $manager->remove($comic);
+            $manager->flush();
+        }
         return $this->redirectService->redirectToPrevious();
     }
 }
