@@ -1,7 +1,7 @@
 {% extends 'photos.html.twig' %}
 
-{% block title %}Hello TopController!{% endblock %}
+{% block title %}{{ parent() }}Top{% endblock %}
 
 {% block body %}
-{{ parent() }}
+    {{ parent() }}
 {% endblock %}

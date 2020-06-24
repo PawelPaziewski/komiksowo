@@ -14,16 +14,18 @@ class AddComicType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title')
+            ->add('title', null,[
+                'label' => 'Tytuł',
+            ])
             ->add('filename', FileType::class, [
-                'label' => ' ',
+                'label' => 'Komiks',
                 'constraints' => [
                     new File([
                         'maxSize' => '2M',
                         'mimeTypes' => [
                             'image/*'
                         ],
-                        'mimeTypesMessage' => 'Plik musi być obrazem'
+                        'mimeTypesMessage' => 'Plik musi być obrazem, nie większym od 2M'
                     ])
                 ]
             ]);

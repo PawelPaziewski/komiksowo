@@ -9,7 +9,7 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
-abstract class  PhotoController extends AbstractController
+class  PhotoController extends AbstractController
 {
     private $redirectService;
 
@@ -35,7 +35,8 @@ abstract class  PhotoController extends AbstractController
         $comic->addLikesBy($this->getUser());
         $manager->persist($comic);
         $manager->flush();
-        return $this->redirectService->redirectToPrevious();
+        return $this->redirectToRoute('index');
+//        return $this->redirectService->redirectToPrevious();
     }
 
     /**
@@ -51,8 +52,8 @@ abstract class  PhotoController extends AbstractController
         $comic->removeLikesBy($this->getUser());
         $manager->persist($comic);
         $manager->flush();
-        $manager->flush();
-        return $this->redirectService->redirectToPrevious();
+        return $this->redirectToRoute('index');
+//        return $this->redirectService->redirectToPrevious();
     }
 
     /**
@@ -67,10 +68,12 @@ abstract class  PhotoController extends AbstractController
         $comic = $manager->getRepository(Comic::class)->find($id);
         if ($comic->getUser() == $this->getUser()) {
             $file = new Filesystem();
-            $file->remove('comics/' . $comic->getFilename());
+            $file->remove('comics/'.$comic->getFilename());
             $manager->remove($comic);
             $manager->flush();
         }
-        return $this->redirectService->redirectToPrevious();
+        return $this->redirectToRoute('index');
+//        return $this->redirectService->redirectToPrevious();
     }
+
 }
