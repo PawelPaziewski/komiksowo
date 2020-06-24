@@ -5,10 +5,22 @@ namespace App\Controller;
 use App\Entity\Comic;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 abstract class  PhotoController extends AbstractController
 {
+    private $session;
+
+    /**
+     * PhotoController constructor.
+     * @param $session
+     */
+    public function __construct(SessionInterface $session)
+    {
+        $this->session = $session;
+    }
+
     /**
      * @Route("/like/{id}", name="like")
      */
@@ -19,7 +31,15 @@ abstract class  PhotoController extends AbstractController
         $comic->addLikesBy($this->getUser());
         $manager->persist($comic);
         $manager->flush();
-        return $this->redirectToRoute('index');
+        return $this->redirectToPrevious();
+    }
+
+    public function redirectToPrevious()
+    {
+        $route = $this->session->get('route', []);
+        if(!$route)
+            $route='index';
+        return $this->redirectToRoute($route);
     }
 
     /**
@@ -32,7 +52,8 @@ abstract class  PhotoController extends AbstractController
         $comic->removeLikesBy($this->getUser());
         $manager->persist($comic);
         $manager->flush();
-        return $this->redirectToRoute('index');
+        $manager->flush();
+        return $this->redirectToPrevious();
     }
 
     /**
@@ -43,9 +64,10 @@ abstract class  PhotoController extends AbstractController
         $manager = $this->getDoctrine()->getManager();
         $comic = $manager->getRepository(Comic::class)->find($id);
         $file = new Filesystem();
-        $file->remove('comics/'.$comic->getFilename());
+        $file->remove('comics/' . $comic->getFilename());
         $manager->remove($comic);
         $manager->flush();
-        return $this->redirectToRoute('index');
+        $manager->flush();
+        return $this->redirectToPrevious();
     }
 }

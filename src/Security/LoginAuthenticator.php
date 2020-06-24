@@ -2,15 +2,11 @@
 
 namespace App\Security;
 
-use App\Controller\IndexController;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\RedirectController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Symfony\Component\Routing\Route;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
@@ -29,7 +25,6 @@ class LoginAuthenticator extends AbstractFormLoginAuthenticator implements Passw
     use TargetPathTrait;
 
     public const LOGIN_ROUTE = 'app_login';
-
     private $entityManager;
     private $urlGenerator;
     private $csrfTokenManager;
@@ -60,7 +55,6 @@ class LoginAuthenticator extends AbstractFormLoginAuthenticator implements Passw
             Security::LAST_USERNAME,
             $credentials['username']
         );
-
         return $credentials;
     }
 
@@ -70,14 +64,11 @@ class LoginAuthenticator extends AbstractFormLoginAuthenticator implements Passw
         if (!$this->csrfTokenManager->isTokenValid($token)) {
             throw new InvalidCsrfTokenException();
         }
-
         $user = $this->entityManager->getRepository(User::class)->findOneBy(['username' => $credentials['username']]);
-
         if (!$user) {
             // fail authentication with a custom error
             throw new CustomUserMessageAuthenticationException('Username could not be found.');
         }
-
         return $user;
     }
 
@@ -99,8 +90,7 @@ class LoginAuthenticator extends AbstractFormLoginAuthenticator implements Passw
         if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
             return new RedirectResponse($targetPath);
         }
-
-        return new RedirectResponse($this->urlGenerator->generate('index'));
+        return new RedirectResponse($this->urlGenerator->generate('my_comics'));
     }
 
     protected function getLoginUrl()

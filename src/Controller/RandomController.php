@@ -3,11 +3,22 @@
 namespace App\Controller;
 
 use App\Entity\Comic;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 class RandomController extends PhotoController
 {
+    private $session;
+
+    /**
+     * RandomController constructor.
+     * @param $session
+     */
+    public function __construct(SessionInterface $session)
+    {
+        $this->session = $session;
+    }
+
     /**
      * @Route("/random", name="random")
      */
@@ -17,6 +28,7 @@ class RandomController extends PhotoController
         $myComics = $manager->getRepository(Comic::class)->findAll();
         shuffle($myComics);
         $randomComic = array_pop($myComics);
+        $this->session->set('route', 'random');
         return $this->render('random/index.html.twig', ['comic' => $randomComic]);
     }
 }
