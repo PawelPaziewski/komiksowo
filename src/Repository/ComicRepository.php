@@ -43,4 +43,5 @@ class ComicRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+
 }

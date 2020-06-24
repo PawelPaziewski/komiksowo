@@ -6,7 +6,7 @@ use App\Entity\Comic;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
-class MyComicsController extends AbstractController
+class MyComicsController extends PhotoController
 {
     /**
      * @Route("/my/comics", name="my_comics")
@@ -15,6 +15,6 @@ class MyComicsController extends AbstractController
     {
         $manager = $this->getDoctrine()->getManager();
         $myComics = $manager->getRepository(Comic::class)->findBy(['user'=>$this->getUser()]);
-        return $this->render('my_comics/index.html.twig', ['mycomics' => $myComics]);
+        return $this->render('my_comics/index.html.twig', ['comics' => $myComics]);
     }
 }

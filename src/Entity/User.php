@@ -21,35 +21,30 @@ class User implements UserInterface
      * @ORM\Column(type="integer")
      */
     private $id;
-
     /**
      * @ORM\Column(type="string", length=180, unique=true)
      */
     private $username;
-
     /**
      * @ORM\Column(type="json")
      */
     private $roles = [];
-
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
      */
     private $password;
-
     /**
      * @ORM\Column(type="string", length=255)
      */
     private $email;
-
     /**
      * @ORM\OneToMany(targetEntity=Comic::class, mappedBy="user")
      */
     private $comics;
 
     /**
-     * @ORM\OneToMany(targetEntity=Like::class, mappedBy="user")
+     * @ORM\ManyToMany(targetEntity=Comic::class, mappedBy="likesBy")
      */
     private $likes;
 
@@ -71,13 +66,12 @@ class User implements UserInterface
      */
     public function getUsername(): string
     {
-        return (string) $this->username;
+        return (string)$this->username;
     }
 
     public function setUsername(string $username): self
     {
         $this->username = $username;
-
         return $this;
     }
 
@@ -89,14 +83,12 @@ class User implements UserInterface
         $roles = $this->roles;
         // guarantee every user at least has ROLE_USER
         $roles[] = 'ROLE_USER';
-
         return array_unique($roles);
     }
 
     public function setRoles(array $roles): self
     {
         $this->roles = $roles;
-
         return $this;
     }
 
@@ -105,13 +97,12 @@ class User implements UserInterface
      */
     public function getPassword(): string
     {
-        return (string) $this->password;
+        return (string)$this->password;
     }
 
     public function setPassword(string $password): self
     {
         $this->password = $password;
-
         return $this;
     }
 
@@ -140,7 +131,6 @@ class User implements UserInterface
     public function setEmail(string $email): self
     {
         $this->email = $email;
-
         return $this;
     }
 
@@ -158,7 +148,6 @@ class User implements UserInterface
             $this->comics[] = $comic;
             $comic->setUser($this);
         }
-
         return $this;
     }
 
@@ -171,36 +160,32 @@ class User implements UserInterface
                 $comic->setUser(null);
             }
         }
-
         return $this;
     }
 
     /**
-     * @return Collection|Like[]
+     * @return Collection|Comic[]
      */
     public function getLikes(): Collection
     {
         return $this->likes;
     }
 
-    public function addLike(Like $like): self
+    public function addLike(Comic $like): self
     {
         if (!$this->likes->contains($like)) {
             $this->likes[] = $like;
-            $like->setUser($this);
+            $like->addLikesBy($this);
         }
 
         return $this;
     }
 
-    public function removeLike(Like $like): self
+    public function removeLike(Comic $like): self
     {
         if ($this->likes->contains($like)) {
             $this->likes->removeElement($like);
-            // set the owning side to null (unless already changed)
-            if ($like->getUser() === $this) {
-                $like->setUser(null);
-            }
+            $like->removeLikesBy($this);
         }
 
         return $this;

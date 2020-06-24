@@ -3,10 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Comic;
+use App\Entity\Like;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
-class IndexController extends AbstractController
+class IndexController extends PhotoController
 {
     /**
      * @Route("/index", name="index")
@@ -18,4 +19,5 @@ class IndexController extends AbstractController
         $latest = $manager ->getRepository(Comic::class)->findAllSortedByUploadedDate();
         return $this->render('index/index.html.twig', ['comics' => $latest]);
     }
+
 }

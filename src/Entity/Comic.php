@@ -35,19 +35,26 @@ class Comic
      */
     private $user;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Like::class, mappedBy="comic")
-     */
-    private $likes;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
     private $filename;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $numOfLikes;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=User::class, inversedBy="likes")
+     */
+    private $likesBy;
+
     public function __construct()
     {
         $this->likes = new ArrayCollection();
+        $this->likesBy = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -91,36 +98,6 @@ class Comic
         return $this;
     }
 
-    /**
-     * @return Collection|Like[]
-     */
-    public function getLikes(): Collection
-    {
-        return $this->likes;
-    }
-
-    public function addLike(Like $like): self
-    {
-        if (!$this->likes->contains($like)) {
-            $this->likes[] = $like;
-            $like->setComic($this);
-        }
-
-        return $this;
-    }
-
-    public function removeLike(Like $like): self
-    {
-        if ($this->likes->contains($like)) {
-            $this->likes->removeElement($like);
-            // set the owning side to null (unless already changed)
-            if ($like->getComic() === $this) {
-                $like->setComic(null);
-            }
-        }
-
-        return $this;
-    }
 
     public function getFilename(): ?string
     {
@@ -130,6 +107,46 @@ class Comic
     public function setFilename(string $filename): self
     {
         $this->filename = $filename;
+
+        return $this;
+    }
+
+    public function getNumOfLikes(): ?int
+    {
+        return $this->numOfLikes;
+    }
+
+    public function setNumOfLikes(int $numOfLikes): self
+    {
+        $this->numOfLikes = $numOfLikes;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getLikesBy(): Collection
+    {
+        return $this->likesBy;
+    }
+
+    public function addLikesBy(User $likesBy): self
+    {
+        if (!$this->likesBy->contains($likesBy)) {
+            $this->likesBy[] = $likesBy;
+            $this->numOfLikes++;
+        }
+
+        return $this;
+    }
+
+    public function removeLikesBy(User $likesBy): self
+    {
+        if ($this->likesBy->contains($likesBy)) {
+            $this->likesBy->removeElement($likesBy);
+            $this->numOfLikes--;
+        }
 
         return $this;
     }

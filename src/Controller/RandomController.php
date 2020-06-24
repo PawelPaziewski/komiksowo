@@ -6,7 +6,7 @@ use App\Entity\Comic;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
-class RandomController extends AbstractController
+class RandomController extends PhotoController
 {
     /**
      * @Route("/random", name="random")
@@ -17,6 +17,6 @@ class RandomController extends AbstractController
         $myComics = $manager->getRepository(Comic::class)->findAll();
         shuffle($myComics);
         $randomComic = array_pop($myComics);
-        return $this->render('random/index.html.twig', ['randcomics' => $randomComic]);
+        return $this->render('random/index.html.twig', ['comic' => $randomComic]);
     }
 }

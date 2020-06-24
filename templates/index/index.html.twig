@@ -1,9 +1,14 @@
-{% extends 'base.html.twig' %}
+{% extends 'photos.html.twig' %}
 
 {% block title %}{{ parent() }}Hello IndexController!{% endblock %}
 
 {% block body %}
-    {% for comic in comics %}
-        <img src="comics/{{ comic.filename }}" alt="">
-    {% endfor %}
+    {{ parent() }}
+{#    {% for comic in comics %}#}
+{#        <img src="comics/{{ comic.filename }}" alt="">#}
+{#        <a href="#">#}
+{#            <img src="/../like.jpeg">#}
+{#        </a>#}
+{#        <p>Likes: {{ comic.getNumOfLikes }}</p>#}
+{#    {% endfor %}#}
 {% endblock %}
