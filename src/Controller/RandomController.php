@@ -8,16 +8,16 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class RandomController extends PhotoController
 {
-    private $session;
+        private $session;
 
-    /**
-     * RandomController constructor.
-     * @param $session
-     */
-    public function __construct(SessionInterface $session)
-    {
-        $this->session = $session;
-    }
+        /**
+         * RandomController constructor.
+         * @param $session
+         */
+        public function __construct(SessionInterface $session)
+        {
+            $this->session = $session;
+        }
 
     /**
      * @Route("/random", name="random")
@@ -29,6 +29,7 @@ class RandomController extends PhotoController
         shuffle($myComics);
         $randomComic = array_pop($myComics);
         $this->session->set('route', 'random');
-        return $this->render('random/index.html.twig', ['comic' => $randomComic]);
+        $comic[] = $randomComic;
+        return $this->render('random/index.html.twig', ['comics' => $comic]);
     }
 }
