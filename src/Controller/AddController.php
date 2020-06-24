@@ -11,7 +11,6 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class AddController extends AbstractController
 {
-
     /**
      * @Route("/add", name="add")
      * @param Request $request

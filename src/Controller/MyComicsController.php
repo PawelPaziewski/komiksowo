@@ -24,6 +24,7 @@ class MyComicsController extends PhotoController
      */
     public function index()
     {
+        $this->denyAccessUnlessGranted('ROlE_USER');
         $manager = $this->getDoctrine()->getManager();
         $myComics = $manager->getRepository(Comic::class)->findBy(['user'=>$this->getUser()]);
         $this->session->set('route', 'my_comics');
