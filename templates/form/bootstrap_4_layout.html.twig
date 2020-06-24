@@ -125,7 +125,8 @@
     {%- set label_attr = label_attr|merge({ class: (label_attr.class|default('') ~ ' custom-file-label')|trim }) -%}
     {%- set input_lang = 'en' -%}
     {% if app is defined and app.request is defined %}{%- set input_lang = app.request.locale -%}{%- endif -%}
-    <label for="{{ form.vars.id }}" lang="{{ input_lang }}" {% with { attr: label_attr } %}{{ block('attributes') }}{% endwith %}>
+    <label for="{{ form.vars.id }}"
+           lang="{{ input_lang }}" {% with { attr: label_attr } %}{{ block('attributes') }}{% endwith %}>
         {%- if attr.placeholder is defined and attr.placeholder is not none -%}
             {{- translation_domain is same as(false) ? attr.placeholder : attr.placeholder|trans({}, translation_domain) -}}
         {%- endif -%}
@@ -331,7 +332,8 @@
         <span class="{% if form is not rootform %}invalid-feedback{% else %}alert alert-danger{% endif %} d-block">
             {%- for error in errors -%}
                 <span class="d-block">
-                    <span class="form-error-icon badge badge-danger text-uppercase">{{ 'Error'|trans({}, 'validators') }}</span> <span class="form-error-message">{{ error.message }}</span>
+                    <span class="form-error-icon badge badge-danger text-uppercase">{{ 'Error'|trans({}, 'validators') }}</span> <span
+                            class="form-error-message">{{ error.message }}</span>
                 </span>
             {%- endfor -%}
         </span>

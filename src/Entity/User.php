@@ -42,7 +42,6 @@ class User implements UserInterface
      * @ORM\OneToMany(targetEntity=Comic::class, mappedBy="user")
      */
     private $comics;
-
     /**
      * @ORM\ManyToMany(targetEntity=Comic::class, mappedBy="likesBy")
      */
@@ -177,7 +176,6 @@ class User implements UserInterface
             $this->likes[] = $like;
             $like->addLikesBy($this);
         }
-
         return $this;
     }
 
@@ -187,7 +185,6 @@ class User implements UserInterface
             $this->likes->removeElement($like);
             $like->removeLikesBy($this);
         }
-
         return $this;
     }
 }

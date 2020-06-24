@@ -4,44 +4,45 @@
 
 {% block body %}
     {% for comic in comics %}
-<div class="container-sm p-5">
-    <div class="card mb-3">
-        <img src="/../comics/{{ comic.filename }}" class="card-img-top" alt="/../comics/{{ comic.filename }}">
-        <div class="card-body">
-            <h5 class="card-title">{{ comic.title }}</h5>
-            <div class="row">
-                <div class="col-sm">
-                    <p class="card-text"><small
-                                class="text-muted">Opublikowano: {{ comic.uploadedDate|date("m.d.Y") }}</small></p>
-                    <p class="card-text"><small class="text-muted">Autor: {{ comic.user.username }}</small></p>
-                    <p class="card-text"><small class="text-muted">Lubi: {{ comic.numOfLikes }}</small></p>
-                </div>
-                <div class="col-sm text-center">
-                    {% if app.user %}
-                        {% if comic.likesBy.contains(app.user) %}
-                            {#                            Lubi#}
-                            <a href="{{ path('unlike', {'id': comic.id}) }}">
-                                <img src="/../lajkbang.png" height="100">
-                            </a>
+        <div class="container-sm p-5">
+            <div class="card mb-3">
+                <img src="/../comics/{{ comic.filename }}" class="card-img-top" alt="/../comics/{{ comic.filename }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ comic.title }}</h5>
+                    <div class="row">
+                        <div class="col-sm">
+                            <p class="card-text"><small
+                                        class="text-muted">Opublikowano: {{ comic.uploadedDate|date("m.d.Y") }}</small>
+                            </p>
+                            <p class="card-text"><small class="text-muted">Autor: {{ comic.user.username }}</small></p>
+                            <p class="card-text"><small class="text-muted">Lubi: {{ comic.numOfLikes }}</small></p>
+                        </div>
+                        <div class="col-sm text-center">
+                            {% if app.user %}
+                                {% if comic.likesBy.contains(app.user) %}
+                                    {#                            Lubi#}
+                                    <a href="{{ path('unlike', {'id': comic.id}) }}">
+                                        <img src="/../lajkbang.png" height="100">
+                                    </a>
 
-                        {% else %}
-                            {#                            Nie lubi#}
-                            <a href="{{ path('like', {'id': comic.id}) }}">
-                                <img src="/../lajkpng.png" height="100">
-                            </a>
-                        {% endif %}
-                    {% endif %}
-                </div>
-                <div class="col-sm text-center">
-                    {% if app.user==comic.user %}
-                        <a href="{{ path('delete', {'id': comic.id}) }}">
-                            <img src="/../delete.png" alt="delete.png" height="100">
-                        </a>
-                    {% endif %}
+                                {% else %}
+                                    {#                            Nie lubi#}
+                                    <a href="{{ path('like', {'id': comic.id}) }}">
+                                        <img src="/../lajkpng.png" height="100">
+                                    </a>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                        <div class="col-sm text-center">
+                            {% if app.user==comic.user %}
+                                <a href="{{ path('delete', {'id': comic.id}) }}">
+                                    <img src="/../delete.png" alt="delete.png" height="100">
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</div>
     {% endfor %}
-    {% endblock %}
+{% endblock %}

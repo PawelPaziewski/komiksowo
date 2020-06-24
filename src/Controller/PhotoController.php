@@ -9,7 +9,7 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
-class  PhotoController extends AbstractController
+abstract class PhotoController extends AbstractController
 {
     private $redirectService;
 
@@ -67,13 +67,18 @@ class  PhotoController extends AbstractController
         $manager = $this->getDoctrine()->getManager();
         $comic = $manager->getRepository(Comic::class)->find($id);
         if ($comic->getUser() == $this->getUser()) {
-            $file = new Filesystem();
-            $file->remove('comics/'.$comic->getFilename());
-            $manager->remove($comic);
-            $manager->flush();
-        }
+            try {
+                $file = new Filesystem();
+                $file->remove('comics/' . $comic->getFilename());
+                $manager->remove($comic);
+                $manager->flush();
+                $this->addFlash('success', 'Pomyślnie usunięto zdjęcie');
+            } catch (\Exception $e) {
+                $this->addFlash('error', 'Wystąpił nieoczekiwany błąd');
+            }
+        } else
+            $this->addFlash('error', 'Nie usunięto zdjęcia ponieważ nie jesteś jego właścicielem');
         return $this->redirectToRoute('index');
 //        return $this->redirectService->redirectToPrevious();
     }
-
 }

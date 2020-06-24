@@ -8,16 +8,16 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class RandomController extends PhotoController
 {
-        private $session;
+    private $session;
 
-        /**
-         * RandomController constructor.
-         * @param $session
-         */
-        public function __construct(SessionInterface $session)
-        {
-            $this->session = $session;
-        }
+    /**
+     * RandomController constructor.
+     * @param $session
+     */
+    public function __construct(SessionInterface $session)
+    {
+        $this->session = $session;
+    }
 
     /**
      * @Route("/random", name="random")

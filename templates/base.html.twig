@@ -50,11 +50,25 @@
 
     </div>
 </nav>
+
+{#  FLASHES   #}
+<div class="container">
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
+    {% for message in app.flashes('error') %}
+        <div class="alert alert-danger">
+            {{ message }}
+        </div>
+    {% endfor %}
+    {% block javascripts %}
+        <script src="{{ asset('popper.min.js') }}"></script>
+        <script src="{{ asset('bootstrap.min.js') }}"></script>
+    {% endblock %}
+</div>
 {% block body %}{% endblock %}
 
-{% block javascripts %}
-    <script src="{{ asset('popper.min.js') }}"></script>
-    <script src="{{ asset('bootstrap.min.js') }}"></script>
-{% endblock %}
 </body>
 </html>
