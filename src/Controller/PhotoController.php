@@ -9,7 +9,7 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
-abstract class  PhotoController extends AbstractController
+class  PhotoController extends AbstractController
 {
     private $redirectService;
 

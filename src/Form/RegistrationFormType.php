@@ -12,32 +12,39 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Unique;
 
 class RegistrationFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('username')
+            ->add('username', null, [
+                'label' => 'Nazwa użytkownika',
+                'mapped' => true,
+            ])
             ->add('email', EmailType::class, [
                 'mapped' => false,
-                'constraints' =>[
+                'label' => 'Adres e-mail',
+                'constraints' => [
                     new NotBlank([
                         'message' => 'Wprowadź adres e-mail'
-                        ])
+                    ])
                 ],
             ])
             ->add('agreeTerms', CheckboxType::class, [
                 'mapped' => false,
+                'label' => 'Akceptuję warunki',
                 'constraints' => [
                     new IsTrue([
-                        'message' => 'Aby się zarejestrowac musisz zaakceptować regulamin',
+                        'message' => 'Aby się zarejestrować musisz zaakceptować regulamin',
                     ]),
                 ],
             ])
             ->add('plainPassword', PasswordType::class, [
                 // instead of being set onto the object directly,
                 // this is read and encoded in the controller
+                'label' => 'Hasło',
                 'mapped' => false,
                 'constraints' => [
                     new NotBlank([
