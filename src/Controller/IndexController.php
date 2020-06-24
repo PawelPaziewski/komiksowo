@@ -23,7 +23,7 @@ class IndexController extends PhotoController
 
     /**
      * @Route("/index", name="index")
-     * @Route("/")
+     * @Route("/", name="in")
      */
     public function index()
     {
