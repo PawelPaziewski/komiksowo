@@ -7,18 +7,19 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Service\RedirectToPrevious;
 
 abstract class  PhotoController extends AbstractController
 {
-    private $session;
+    private $redirectService;
 
     /**
      * PhotoController constructor.
-     * @param $session
+     * @param $redirectService
      */
-    public function __construct(SessionInterface $session)
+    public function __construct(RedirectToPrevious $redirectService)
     {
-        $this->session = $session;
+        $this->redirectService = $redirectService;
     }
 
     /**
@@ -31,16 +32,16 @@ abstract class  PhotoController extends AbstractController
         $comic->addLikesBy($this->getUser());
         $manager->persist($comic);
         $manager->flush();
-        return $this->redirectToPrevious();
+        return $this->redirectService->redirectToPrevious();
     }
 
-    public function redirectToPrevious()
-    {
-        $route = $this->session->get('route', []);
-        if(!$route)
-            $route='index';
-        return $this->redirectToRoute($route);
-    }
+//    public function redirectToPrevious()
+//    {
+//        $route = $this->session->get('route', []);
+//        if(!$route)
+//            $route='index';
+//        return $this->redirectToRoute($route);
+//    }
 
     /**
      * @Route("/unlike/{id}", name="unlike")
@@ -53,7 +54,7 @@ abstract class  PhotoController extends AbstractController
         $manager->persist($comic);
         $manager->flush();
         $manager->flush();
-        return $this->redirectToPrevious();
+        return $this->redirectService->redirectToPrevious();
     }
 
     /**
@@ -68,6 +69,6 @@ abstract class  PhotoController extends AbstractController
         $manager->remove($comic);
         $manager->flush();
         $manager->flush();
-        return $this->redirectToPrevious();
+        return $this->redirectService->redirectToPrevious();
     }
 }
