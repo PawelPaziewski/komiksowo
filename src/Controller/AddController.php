@@ -34,6 +34,7 @@ class AddController extends AbstractController
                         $entityComics->setFilename($newFileName);
                         $entityComics->setUploadedDate(new \DateTime());
                         $entityComics->setUser($this->getUser());
+                        $entityComics->setNumOfLikes(0);
                         $em->persist($entityComics);
                         $em->flush();
                         $this->addFlash('success', 'Dodano komiks!');
